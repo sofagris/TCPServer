@@ -3,14 +3,14 @@ TCPServer
 
 A simple TCP Server for testing, viewing and interacting with TCP data.
 
-Usage:
-TCPServer.exe [args]
+Usage:<br>
+TCPServer.exe [args]<br>
 
-Args:
---HOST:<IP / Hostname>    #Default 0.0.0.0
---PORT:<portnumber>       #Default 23
---GUI #Show Windows GUI   #Default False
-
+Args:<br>
+--HOST:<IP / Hostname>    #Default 0.0.0.0 <br>
+--PORT:<portnumber>       #Default 23<br>
+--GUI #Show Windows GUI   #Default False<br>
+<br>
 
 License:
 No restrictions. Go grab a beer ;)
