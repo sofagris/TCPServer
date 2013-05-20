@@ -66,18 +66,18 @@ namespace TCPServer
             Console.WriteLine("Hostname : {0}", BindIP );
             Console.WriteLine("Port : {0}", Portnumber );
             bool MOTDSent = false;
-            IPAddress HOST = IPAddress.Parse("0.0.0.0");
-            IPEndPoint serverEP = new IPEndPoint(HOST, 23);
+            IPAddress HOST = IPAddress.Parse(BindIP);
+            IPEndPoint serverEP = new IPEndPoint(HOST, Portnumber);
             Socket sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             sck.Bind(serverEP);
-            sck.Listen(443); // <-- Denne må vel være feil? 
+            sck.Listen(Portnumber); // <-- Denne må vel være feil? 
 
             try
             {
                 Console.WriteLine("Listening for clients...");
                 Console.WriteLine("Press Ctrl-X to exit");
 
-                // TODO : Fix 
+                // TODO : Fix this... Console keys not being read before connect.
                 Socket msg = sck.Accept();
                 Console.WriteLine("First data");
                 
