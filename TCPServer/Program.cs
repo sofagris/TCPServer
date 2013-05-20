@@ -17,6 +17,7 @@ namespace TCPServer
             string BindIP = "0.0.0.0";
             int Portnumber = 23;
             string Value = null;
+            string MOTD = "Welcome to the TCPServer";
 
             foreach (string arg in args) // Checking all command line arguments
             {
@@ -56,6 +57,10 @@ namespace TCPServer
                         myForm.Show();
                         break;
 
+                    case ("--MOTD"):
+                        MOTD = Value;
+                        break;
+
                     default:
                         break;
                 }
@@ -63,7 +68,7 @@ namespace TCPServer
             }
 
             Console.WriteLine("Starting with options");
-            Console.WriteLine("Hostname : {0}", BindIP );
+            Console.WriteLine("BindIP : {0}", BindIP);
             Console.WriteLine("Port : {0}", Portnumber );
             bool MOTDSent = false;
             IPAddress HOST = IPAddress.Parse(BindIP);
@@ -84,7 +89,7 @@ namespace TCPServer
                 ConsoleKeyInfo cki = new ConsoleKeyInfo(); //Keypress
 
                 // Sending MOTD
-                byte[] buffer = Encoding.Default.GetBytes("Welcome to the server of bibabeluba!!");
+                byte[] buffer = Encoding.Default.GetBytes(MOTD);
                 msg.Send(buffer, 0, buffer.Length, 0);
                 buffer = new byte[255];
 
