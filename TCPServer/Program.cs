@@ -14,42 +14,58 @@ namespace TCPServer
     {
         static void Main(string[] args)
         {
-            string Hostname = "0.0.0.0";
+            string BindIP = "0.0.0.0";
             int Portnumber = 23;
-            bool Gui = false;
+            string Value = null;
 
             foreach (string arg in args) // Checking all command line arguments
             {
 
                 /* Parse args
-                 * "--" means start of argument
-                 * ":" means arument / value separator
-
+                  "--" means start of argument
+                  ":" means arument / value separator
                  */
- 
+
                 string option;
-                string value; //Optional
+                
+                if (arg.IndexOf(':') > 1)
+                {
+                    string[] words = arg.Split(':');
+                    option = words[0].ToUpper();
+                    Value = words[1].ToUpper();  //Optional   
+                }
+                else
+                {
+                    option = arg.ToUpper();
+                }
 
-                option = "--HOST"; // Just dummy variable to avoid build error
-                // value = "0.0.0.0";
-
+                
                 switch (option)
                 {
-                    case("--HOST"):
-                        // Hostname = value;
+                    case ("--BINDIP"):
+                        BindIP = Value;
                         break;
 
                     case("--PORT"):
-                        Portnumber = Convert.ToInt32(value);
+                        Portnumber = Convert.ToInt32(Value);
                         break;
 
                     case("--GUI"):
-                        Gui = true;
+                        Console.WriteLine("Starting GUI");
+                        Form1 myForm = new Form1();
+                        myForm.Show();
+                        break;
+
+                    default:
                         break;
                 }
 
             }
 
+            Console.WriteLine("Starting with options");
+            Console.WriteLine("Hostname : {0}", BindIP );
+            Console.WriteLine("Port : {0}", Portnumber );
+            bool MOTDSent = false;
             IPAddress HOST = IPAddress.Parse("0.0.0.0");
             IPEndPoint serverEP = new IPEndPoint(HOST, 23);
             Socket sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -60,8 +76,11 @@ namespace TCPServer
             {
                 Console.WriteLine("Listening for clients...");
                 Console.WriteLine("Press Ctrl-X to exit");
-                Socket msg = sck.Accept();
 
+                // TODO : Fix 
+                Socket msg = sck.Accept();
+                Console.WriteLine("First data");
+                
                 ConsoleKeyInfo cki = new ConsoleKeyInfo(); //Keypress
 
                 // Sending MOTD
@@ -71,6 +90,13 @@ namespace TCPServer
 
                 while (true)
                 {
+                    if (msg.Connected)
+                    {
+                        if (!MOTDSent)
+                        {
+
+                        }
+                    }
                     // Checking buffer for available data
                     if (msg.Available >= 1)
                     {
@@ -89,6 +115,7 @@ namespace TCPServer
                         {
                             sck.Close();
                             msg.Close();
+                            Environment.Exit(1);
                         }
                         // Sending data to client
                         byte[] cmdOutput = Encoding.Default.GetBytes(cki.Key.ToString());
