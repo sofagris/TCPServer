@@ -1,7 +1,7 @@
 TCPServer
 =========
 
-A simple TCP Server for testing, viewing and interacting with TCP data.
+A simple TCP Server written in C# for testing, viewing and interacting with TCP data.
 
 Usage:<br>
 TCPServer.exe [args]<br>
